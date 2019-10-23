@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
-const formidable = require('formidable')
 const fs = require('fs')
 const File = require('../models/file')
 
 exports.getFileInfo = (req,res,next) => {
-    File.find({_ownerId: req.userid})
+    File.find({_ownerid: req.userid})
         .then(files => {
             res.status(200).json({files:files})
         })
@@ -19,71 +18,37 @@ exports.getFile = (req,res,next) => {
         })
         .catch(err => {
             res.status(400).json({error:err})
+
         })
 }
-exports.createFile = (req,res,next) => {    
-
-        const form = new formidable.IncomingForm()
-        form.uploadDir = `./uploads/files`
-        form.keepExtensions = true
-        form.multiples = true
-        form.parse(req, (err, fields, files) => {
-            if(err){
-                res.status(400).json({
-                    message:'Error Uploading File(s)',
-                    error:err
-                })
-            
-            }
-            if(Array.isArray(files.file)){
-                files.file.forEach(file => {
-                    let id = new mongoose.Types.ObjectId()
-                    let newFile = new File({
-                        _id: id,
-                        _ownerId: req.userid,
-                        type: file.type,
-                        name: file.name,
-                        size: file.size,
-                        location: file.path,
-                        link: `http://localhost:3000/files/${id}`
-                    })
-    
-                    newFile.save()
-                            .then(() => {
-                               console.log('File Added')
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
-                
-                })
-            }else{
-                let file = files.file
-                let id = new mongoose.Types.ObjectId()
-                    let newFile = new File({
-                        _id: id,
-                        _ownerId: req.userid,
-                        type: file.type,
-                        name: file.name,
-                        size: file.size,
-                        location: file.path,
-                        link: `http://localhost:3000/files/${id}`
-                    })
-    
-                    newFile.save()
-                            .then(() => {
-                               console.log('File Added')
-                            })
-                            .catch(err => {
-                                res.status(400).json({error:err})
-                            })
-            }           
-                res.status(200).json({
-                    message:'Files Uploaded',
-                })
-        
+exports.createFile = (req,res,next) => { 
+    try{
+        files = []
+        req.files.forEach(file => {
+            let newid = new mongoose.Types.ObjectId()
+            let filedata = {
+                _id:newid,
+                _ownerid: req.userid,
+                name: file.originalname,
+                size: file.size,
+                type: file.mimetype,
+                location: file.path
+            } 
+            let newfile = new File(filedata)
+            files.push(filedata)
+            newfile.save()
+        });
+        res.status(200).json({
+            message:'File(s) Uploaded',
+            files:files
         })
-
+    }   
+    catch(err){
+        res.status(400).json({
+            error:err
+        })
+    }
+    
 }
 
 exports.deleteFile = (req,res,next) => {

@@ -4,7 +4,7 @@ const imageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    _ownerId:{
+    _ownerid:{
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -23,14 +23,6 @@ const imageSchema = new mongoose.Schema({
     location:{
         type: String,
         required:true,
-    },
-    link:{
-        type:String,
-        required:true
-    },
-    src:{
-        type:String,
-        required:true
     }
 
 },{

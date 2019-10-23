@@ -9,10 +9,11 @@ exports.login = (req,res,next) => {
           bcrypt.compare(req.body.password,user[0].password)
           .then(result => {
               if(result){
-                  const token = jwt.sign({id: user[0]._id, profilepic:user[0].profilepic, username:user[0].username},process.env.SIGNATURE,{expiresIn:'3h'})
+                  const token = jwt.sign({id: user[0]._id},process.env.SIGNATURE,{expiresIn:'8h'})
                   res.status(200).json({
                       token:token,
-                      pic:user[0].profilepic
+                      username: user[0].username,
+                      profilepic: user[0].profilepic
                   })
               }
               else{

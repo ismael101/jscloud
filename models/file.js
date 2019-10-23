@@ -4,7 +4,7 @@ const fileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    _ownerId:{
+    _ownerid:{
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -23,10 +23,6 @@ const fileSchema = new mongoose.Schema({
     location:{
         type: String,
         required:true,
-    },
-    link:{
-        type:String,
-        required:true
     }
 
 },{

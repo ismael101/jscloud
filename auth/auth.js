@@ -16,12 +16,12 @@ module.exports = (req,res,next) => {
                 }
                 else{
                     req.userid = userid 
-
                     next()
                 }
             })
     }
     catch(error){
-        return res.status(401).json({error:'No Token Recieved'})
+        console.log(error)
+        return res.status(401).json({error:'Invalid Token'})
     }
 }
