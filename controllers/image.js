@@ -15,7 +15,7 @@ exports.getImageInfo = (req,res,next) => {
 exports.getImage = (req,res,next) => {
     Image.findById(req.params.id)
         .then(image => {
-            res.download(image.location)
+            res.sendFile(image.location)
         })
         .catch(err => {
             res.status(400).json({error:err})
