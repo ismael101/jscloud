@@ -26,8 +26,9 @@ exports.login = (req,res,next) => {
               res.status(500).json({
                   error:err
               })
+              console.error(err.stack);
           })
-      })  
+      })
       .catch(err => {
           res.status(500).json({
               error:err
@@ -40,6 +41,7 @@ exports.login = (req,res,next) => {
       });
     });
 }
+
 
 exports.signup = (req,res,next) => {
 

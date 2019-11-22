@@ -6,15 +6,15 @@ const users = require('./routes/user')
 const files = require('./routes/file')
 const images = require('./routes/image')
 const app = express()
- 
-mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds235378.mlab.com:35378/cloud_db`,{useNewUrlParser:true, useCreateIndex:true})
+
+mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds235378.mlab.com:35378/cloud_db`,{useNewUrlParser:true, useCreateIndex:true, useUnifiedTopology:true})
         .then(() => {
             console.log('connected to db')
         })
         .catch(err  => {
             console.log(err)
         })
-    
+
 
 app.use(cors())
 app.use(morgan("dev"));
@@ -33,7 +33,6 @@ app.use((err,req,res,next) => {
 	console.error(err.stack)
 	res.status(500).send("Server Error")
 })
-app.listen(process.env.PORT,() => {  
+app.listen(process.env.PORT,() => {
     console.log(`Server running on port ${process.env.PORT}`)
 })
-
