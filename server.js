@@ -23,9 +23,9 @@ app.use(express.json())
 
 app.use('/uploads/images', express.static('uploads/images'));
 app.use('/uploads/users', express.static('uploads/users'))
-app.use('/users', users)
-app.use('/files', files)
-app.use('/images', images)
+app.use('/api/users', users)
+app.use('/api/files', files)
+app.use('/api/images', images)
 
 app.use(express.static(path.join(__dirname, 'client', 'build')))
 
